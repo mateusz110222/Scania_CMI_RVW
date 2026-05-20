@@ -1,0 +1,31 @@
+services:
+  nestjs:
+    build:
+      context: ./nestjs
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./nestjs/.env.dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./nestjs/:/app
+      - /app/node_modules
+
+  react_app:
+    build:
+      context: ./react-app
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./react-app/.env.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./react-app/:/app
+      - /app/node_modules
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: Delphi1234!
+    ports:
+      - 5432:5432
