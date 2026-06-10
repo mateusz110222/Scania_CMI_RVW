@@ -3,15 +3,15 @@ import { UnitService } from './unit.service';
 
 @Controller('units')
 export class UnitController {
-  constructor(readonly unitService: UnitService) {}
+  constructor(readonly unitService: UnitService) { }
 
   @Get(':serialNumber/filter')
   filter(@Param('serialNumber') serialNumber: string) {
     return this.unitService.Filter(serialNumber);
   }
 
-  @Get(':serialNumber')
-  findOne(@Param('serialNumber') serialNumber: string) {
+  @Get(':serialNumber/find')
+  find(@Param('serialNumber') serialNumber: string) {
     return this.unitService.Find(serialNumber);
   }
 
@@ -36,7 +36,7 @@ export class UnitController {
   }
 
   @Get(':serialNumber/PerformHoldRouteCheck/:process')
-  PerformHoldRouteCheck(
+  performHoldRouteCheck(
     @Param('serialNumber') serialNumber: string,
     @Param('process') process: string,
   ) {
@@ -44,7 +44,7 @@ export class UnitController {
   }
 
   @Post(':serialNumber/dataEntry')
-  async DataEntry(
+  async dataEntry(
     @Param('serialNumber') serialNumber: string,
     @Body('process') process: string,
     @Body('station') station: string,
@@ -56,10 +56,5 @@ export class UnitController {
       station,
       dcstring,
     );
-  }
-
-  @Get(':serialNumeber/find')
-  async Find(@Param('serialNumeber') serialNumeber: string): Promise<any> {
-    return await this.unitService.Find(serialNumeber);
   }
 }

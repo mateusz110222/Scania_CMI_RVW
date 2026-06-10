@@ -13,8 +13,8 @@ export const extractFaultsFromEvents = (events: string[]) => {
     { date: string; fault_code: string }
   >();
 
-  events.forEach((event: string) => {
-    if (!event) return;
+  for (const event of events) {
+    if (!event) continue;
 
     const parts = event.split('|');
     const status = Number(parts[5]);
@@ -32,9 +32,9 @@ export const extractFaultsFromEvents = (events: string[]) => {
           }
         }
       });
+      break;
     }
-    return;
-  });
+  }
 
   return Array.from(uniqueFaultsMap.values());
 };

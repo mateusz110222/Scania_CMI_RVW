@@ -45,11 +45,9 @@ export const useScan = (): UseScanReturn => {
       const parent = await unitService.findParentTopcover(children);
 
       const unitStatus = await unitService.getStatus(parent);
-      console.table(unitStatus.data);
 
       if (unitStatus.data?.uk3 === 'TOPCOVER') {
         const response = await unitService.getChildren(parent);
-        console.log('Dzieci:', response.data);
 
         if (response.data && response.data.length > 0) {
           children = response.data[0];
@@ -80,7 +78,6 @@ export const useScan = (): UseScanReturn => {
       }
 
       const events = eventsResponse.data || [];
-      console.log('Eventy:', events);
 
       const ExtractedFaults = extractFaultsFromEvents(events);
 
@@ -88,16 +85,17 @@ export const useScan = (): UseScanReturn => {
         throw new Error('Nie znaleziono kodów błędu');
       }
 
-      console.log('Wyciągnięte błędy:', ExtractedFaults);
+      console.table(ExtractedFaults);
 
-      const loadedFaults: FaultItem[] = [];
-      for (const item of ExtractedFaults) {
-        const svgsrc = await fetchSVGText(
-          `/file/${item.date}/overlay_${children}_${item.fault_code}_NOK.svg`,
-          item.date,
-        );
-        loadedFaults.push({ ...item, imageUrl: svgsrc });
-      }
+      const loadedFaults: FaultItem[] = await Promise.all(
+        ExtractedFaults.map(async (item) => {
+          const svgsrc = await fetchSVGText(
+            `/file/${item.date}/overlay_${children}_${item.fault_code}_NOK.svg`,
+            item.date,
+          );
+          return { ...item, imageUrl: svgsrc };
+        }),
+      );
 
       if (loadedFaults.length === 0) {
         throw new Error('Nie udało się pobrać żadnych zdjęć z serwera.');

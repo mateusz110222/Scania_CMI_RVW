@@ -50,7 +50,6 @@ export const unitService = {
       const statusResponse = await this.getStatus(currentUnit);
       const currentStatus = statusResponse.data;
 
-      console.log(`Status jednostki ${currentUnit}:`, currentStatus);
       if (currentStatus?.uk3 === 'TOPCOVER') {
         return currentUnit;
       }
@@ -64,7 +63,6 @@ export const unitService = {
 
       const parentResponse = await this.getParent(currentUnit);
       const parent = parentResponse.data;
-      console.log('Znaleziony rodzic:', parent);
 
       if (parent && parent !== '') {
         currentUnit = parent;
