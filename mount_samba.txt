@@ -1,2 +1,0 @@
-sudo umount /mnt/samba 2>/dev/null
-sudo mount -t cifs "//10.142.11.50/blndata" /mnt/samba -o username="BLNNASFA",domain="GLOBAL",password='HelloFA1!2@',uid=1000,gid=1000,vers=3.0,sec=ntlmssp,actimeo=60,closetimeo=60

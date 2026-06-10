@@ -6,7 +6,7 @@ import { createReadStream } from 'node:fs';
 @Injectable()
 export class FileService {
   async getFile(date: string, filename: string): Promise<StreamableFile> {
-    if (!isMatch(date,'yyMMdd')) {
+    if (!isMatch(date, 'yyMMdd')) {
       throw new NotFoundException('Invalid date format');
     }
 
@@ -14,8 +14,8 @@ export class FileService {
 
     try {
       await stat(path);
-    } catch {
-      throw new NotFoundException('File not found');
+    } catch (error) {
+      throw new NotFoundException('File not found', { cause: error });
     }
 
     return new StreamableFile(createReadStream(path));

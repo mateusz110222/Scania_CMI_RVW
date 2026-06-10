@@ -216,8 +216,8 @@ publish/
 *.pubxml
 *.publishproj
 
-# Microsoft Azure Web App publish settings. Comment the next line if you want to
-# checkin your Azure Web App publish settings, but sensitive information contained
+# Microsoft Azure Web Appx publish settings. Comment the next line if you want to
+# checkin your Azure Web Appx publish settings, but sensitive information contained
 # in these scripts will be unencrypted
 PublishScripts/
 
@@ -396,8 +396,23 @@ Temporary Items
 =======
 # Local
 .env
+.env.*
+!.env.example
 dist
 .webpack
 .serverless/**/*.zip
 
 *.svg
+
+# ── Sensitive / credentials ──
+mount_samba.sh
+mount_samba.txt
+.env.mount_samba
+.env.production
+docker-entrypoint.sh
+
+# ── Docker runtime ──
+docker-compose.prod.yml
+
+# ── Root lockfile (not a real project) ──
+/package-lock.json
